@@ -15,3 +15,17 @@ def home():
         return "Server and Database connection is running!"
     except Exception as e:
         return str(e)  # Return the error message if connection fails
+    
+@app.post("/todo")  # Keep only POST method
+def add_todo():
+    try:
+        data = request.get_json()  # Get JSON data from the request
+        name = data.get("name")  # Extract the name from the JSON
+
+        if not name:
+            return {"error": "Required Name is missing"}, 400  # Return 400 status code
+        
+        response = supabase_client.table("todo").insert({"name": name}).execute()
+        return {"message": f"{name} was added to the list!"}, 201  # Return 201 status code
+    except Exception as e:
+        return {"error": str(e)}, 500  # Return 500 status code for server errors

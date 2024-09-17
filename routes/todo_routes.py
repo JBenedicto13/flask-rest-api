@@ -1,17 +1,17 @@
 from flask import Blueprint, request
-from controllers.todo_controller import get_all_todos, get_todo_by_id
+from controllers.todo_controller import get_all_todos, get_todo_by_id, add_item
 
 todo_bp = Blueprint('todo', __name__)
 
-@todo_bp.route("/todo", methods=["GET"])
-def get_todo():
-    id = request.args.get("id", type=int)
+@todo_bp.route("/todo", methods=["GET", "POST"])
+def handle_todo():
+    if request.method == "GET":
+        id = request.args.get("id", type=int)
+        if id is not None:  # If an ID is provided, get a specific todo
+            return get_todo_by_id(id)  # Directly call the controller function
+        else:  # If no ID is provided, get all todos
+            return get_all_todos()  # Call the function to get all todos
 
-    try:
-        if id is not None:
-            response = get_todo_by_id(id)
-        else:
-            response = get_all_todos()
-        return response.data
-    except Exception as e:
-        return str(e)
+    elif request.method == "POST":
+        data = request.get_json()  # Get JSON data from the request
+        return add_item(data)  # Directly call the controller function
