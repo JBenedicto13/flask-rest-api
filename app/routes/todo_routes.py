@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from controllers.todo_controller import get_all_todos, get_todo_by_id, add_item, update_item, delete_item
+from app.controllers.todo_controller import get_all_todos, get_todo_by_id, add_item, update_item, delete_item
 
 todo_bp = Blueprint('todo', __name__)
 

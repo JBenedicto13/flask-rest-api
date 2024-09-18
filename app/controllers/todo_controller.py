@@ -1,5 +1,5 @@
-from config.db import get_supabase_client
-from utils.return_format import ReturnFormat
+from app.db import get_supabase_client
+from app.utils.return_format import ReturnFormat
 supabase_client = get_supabase_client()
 
 def get_todo_by_id(id):
